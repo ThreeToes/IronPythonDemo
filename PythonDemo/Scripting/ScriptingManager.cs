@@ -15,12 +15,13 @@ namespace PythonDemo.Scripting
     {
         private readonly ScriptEngine _engine;
         private readonly CallbackManager _callbackManager;
-        private ContactManager _contactManager;
+        private readonly ContactManager _contactManager;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="manager">The callback manager</param>
+        /// <param name="contacts">The contact manager</param>
         public ScriptingManager(CallbackManager manager, ContactManager contacts)
         {
             _contactManager = contacts;
@@ -30,7 +31,7 @@ namespace PythonDemo.Scripting
             searchPaths.Add(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PythonLib"));
             _engine.SetSearchPaths(searchPaths);
             _engine.Runtime.Globals.SetVariable("callbackManager", _callbackManager);
-            _engine.Runtime.Globals.SetVariable("contactManager", _contactManager);
+            _engine.Runtime.Globals.SetVariable("contactManagerObject", _contactManager);
         }
 
         /// <summary>

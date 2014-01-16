@@ -6,9 +6,10 @@ from PythonDemo.Models import Contact
 from PythonDemo.Scripting import IHookListener
 #Bit of a cheap thing to do, but this allows nicer looking python if we hide this behind our module
 import callbackManager
-import contactManager
+#Needs to be this, this module is named the same thing
+import contactManagerObject
 
-class hook_listener(IHookListener):
+class HookListener(IHookListener):
     """
     Python wrapper for IHookListener. Not really necessary in this case, but here for an example
     """
@@ -31,4 +32,10 @@ def addContact(contact):
     """
     Add a contact to the application
     """
-    contactManager.Contacts.Add(contact)
+    contactManagerObject.Contacts.Add(contact)
+
+def getContacts():
+    """
+    Get all contacts in the system
+    """
+    return contactManagerObject.Contacts
