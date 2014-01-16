@@ -40,8 +40,8 @@ namespace PythonDemo
         public MainWindow()
         {
             _callbackManager = new CallbackManager();
-            _scriptingManager = new ScriptingManager(_callbackManager);
             ContactManager = new ContactManager(_callbackManager);
+            _scriptingManager = new ScriptingManager(_callbackManager, ContactManager);
             InitializeComponent();
         }
 

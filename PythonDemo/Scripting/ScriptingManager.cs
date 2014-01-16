@@ -7,6 +7,7 @@ using System.Windows;
 using IronPython.Hosting;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
+using PythonDemo.Models;
 
 namespace PythonDemo.Scripting
 {
@@ -14,19 +15,22 @@ namespace PythonDemo.Scripting
     {
         private readonly ScriptEngine _engine;
         private readonly CallbackManager _callbackManager;
+        private ContactManager _contactManager;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="manager">The callback manager</param>
-        public ScriptingManager(CallbackManager manager)
+        public ScriptingManager(CallbackManager manager, ContactManager contacts)
         {
+            _contactManager = contacts;
             _callbackManager = manager;
             _engine = Python.CreateEngine();
             var searchPaths = new List<string>(_engine.GetSearchPaths());
             searchPaths.Add(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PythonLib"));
             _engine.SetSearchPaths(searchPaths);
             _engine.Runtime.Globals.SetVariable("callbackManager", _callbackManager);
+            _engine.Runtime.Globals.SetVariable("contactManager", _contactManager);
         }
 
         /// <summary>
