@@ -1,0 +1,65 @@
+﻿<Window x:Class="PythonDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Models="clr-namespace:PythonDemo.Models"
+        Title="MainWindow" Height="350" Width="525"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Grid.Resources>
+            <Models:Contact x:Key="DummyContact" FirstName="Bob" LastName="McAliceson" Email="b.mca@crypto.org" PhoneNumber="0455783688"/>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0" VerticalAlignment="Stretch" SelectedItem="{Binding Path=CurrentlySelected}"
+                      ItemsSource="{Binding ContactManager.Contacts}" DisplayMemberPath="FullName"/>
+            <StackPanel Grid.Row="1" Height="Auto" VerticalAlignment="Bottom" 
+                        DockPanel.Dock="Bottom" Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Content="Add Contact" Margin="5" Click="AddContactClick" />
+                <Button Content="Delete Contact" Margin="5" Click="RemoveContact" />
+            </StackPanel>
+        </Grid>
+        <DockPanel Grid.Column="1" DataContext="{Binding Path=CurrentlySelected}" 
+                    d:DataContext="{StaticResource ResourceKey=DummyContact}">
+            <Label FontSize="16" HorizontalAlignment="Center"
+                   FontWeight="Bold" DockPanel.Dock="Top"
+                Content="{Binding Path=FullName}"/>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="First name"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Last name"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Email"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Phone"/>
+                <TextBox Grid.Column="1" Grid.Row="0" 
+                         Text="{Binding Path=FirstName, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Grid.Row="1" 
+                         Text="{Binding Path=LastName, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Grid.Row="2" 
+                         Text="{Binding Path=Email, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Grid.Row="3" 
+                         Text="{Binding Path=PhoneNumber, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Grid.Column="1" Grid.Row="5" Content="Run script" HorizontalAlignment="Center" Click="RunScript"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
