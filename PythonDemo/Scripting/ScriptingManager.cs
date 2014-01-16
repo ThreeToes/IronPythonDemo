@@ -22,15 +22,21 @@ namespace PythonDemo.Scripting
             var searchPaths = new List<string>(_engine.GetSearchPaths());
             searchPaths.Add(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PythonLib"));
             _engine.SetSearchPaths(searchPaths);
+            _engine.Runtime.Globals.SetVariable("callbackManager", _callbackManager);
         }
 
         public void RunScript(string script)
         {
             var scope = _engine.CreateScope();
-            scope.SetVariable("callbackManager", _callbackManager);
             var source = _engine.CreateScriptSourceFromString(script, SourceCodeKind.Statements);
             var compiled = source.Compile();
-            var result = compiled.Execute(scope);
+            try
+            {
+                var result = compiled.Execute(scope);
+            }catch(Exception e)
+            {
+                MessageBox.Show("Script failed to run: " + e.Message);
+            }
         }
 
         public void RunFile(string path)
