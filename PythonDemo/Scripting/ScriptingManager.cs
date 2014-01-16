@@ -15,6 +15,10 @@ namespace PythonDemo.Scripting
         private readonly ScriptEngine _engine;
         private readonly CallbackManager _callbackManager;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="manager">The callback manager</param>
         public ScriptingManager(CallbackManager manager)
         {
             _callbackManager = manager;
@@ -25,6 +29,10 @@ namespace PythonDemo.Scripting
             _engine.Runtime.Globals.SetVariable("callbackManager", _callbackManager);
         }
 
+        /// <summary>
+        /// Run raw code
+        /// </summary>
+        /// <param name="script">The script to run</param>
         public void RunScript(string script)
         {
             var scope = _engine.CreateScope();
@@ -39,6 +47,10 @@ namespace PythonDemo.Scripting
             }
         }
 
+        /// <summary>
+        /// Run a file with the embedded engine
+        /// </summary>
+        /// <param name="path">Path to the string</param>
         public void RunFile(string path)
         {
             var script = File.ReadAllText(path);

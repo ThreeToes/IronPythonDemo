@@ -14,12 +14,19 @@ namespace PythonDemo.Models
         private ObservableCollection<Contact> _contacts;
         private CallbackManager _callbacks;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="callbacks">Callback manager to use</param>
         public ContactManager(CallbackManager callbacks)
         {
             Contacts = new ObservableCollection<Contact>();
             _callbacks = callbacks;
         }
 
+        /// <summary>
+        /// List of contacts
+        /// </summary>
         public ObservableCollection<Contact> Contacts
         {
             get { return _contacts; }
@@ -31,6 +38,14 @@ namespace PythonDemo.Models
             }
         }
 
+        /// <summary>
+        /// Called when the contacts list changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        /// Only really here to fire events on our callback manager
+        /// </remarks>
         private void ContactsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Add)

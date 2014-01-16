@@ -11,6 +11,9 @@ namespace PythonDemo
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Currently selected contact
+        /// </summary>
         public Contact CurrentlySelected
         {
             get { return _currentlySelected; }
@@ -23,9 +26,17 @@ namespace PythonDemo
         }
 
         private readonly CallbackManager _callbackManager;
-        private ScriptingManager _scriptingManager;
+        private readonly ScriptingManager _scriptingManager;
         private Contact _currentlySelected;
+        
+        /// <summary>
+        /// Contact manager logic
+        /// </summary>
         public ContactManager ContactManager { get; private set; }
+        
+        /// <summary>
+        /// Logic
+        /// </summary>
         public MainWindow()
         {
             _callbackManager = new CallbackManager();
@@ -42,6 +53,11 @@ namespace PythonDemo
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Called when the add contact button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddContactClick(object sender, RoutedEventArgs e)
         {
             ContactManager.Contacts.Add(new Contact()
@@ -50,27 +66,39 @@ namespace PythonDemo
                                             });
         }
 
+        /// <summary>
+        /// Called when the remove contact button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveContact(object sender, RoutedEventArgs e)
         {
             if(CurrentlySelected == null)return;
             ContactManager.Contacts.Remove(CurrentlySelected);
         }
 
+        /// <summary>
+        /// Called when the run script button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RunScript(object sender, RoutedEventArgs e)
         {
-            var dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = "script"; // Default file name 
-            dlg.DefaultExt = ".py"; // Default file extension 
-            dlg.Filter = "Python Scripts (.py)|*.py"; // Filter files by extension 
+            var dialog = new Microsoft.Win32.OpenFileDialog
+                          {
+                              FileName = "script", 
+                              DefaultExt = ".py", 
+                              Filter = "Python Scripts (.py)|*.py"
+                          };
 
             // Show open file dialog box 
-            var result = dlg.ShowDialog();
+            var result = dialog.ShowDialog();
 
-            // Process open file dialog box results 
             if (result == true)
             {
                 // Open document 
-                string filename = dlg.FileName;
+                string filename = dialog.FileName;
+                //Run the script
                 _scriptingManager.RunFile(filename);
             }
         }
