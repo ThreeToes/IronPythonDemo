@@ -1,9 +1,13 @@
+#Import IronPython's clr module
 import clr
 
+#Add the assembly reference for our application
 clr.AddReferenceByName("PythonDemo")
 
+#Import our data structures in a normal python way
 from PythonDemo.Models import Contact
 from PythonDemo.Scripting import IHookListener
+
 #Bit of a cheap thing to do, but this allows nicer looking python if we hide this behind our module
 import callbackManager
 #Needs to be this, this module is named the same thing
